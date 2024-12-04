@@ -1,0 +1,182 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>节日倒计时</title>
+    <style>
+        body {
+            font-family: 'Microsoft YaHei', Arial, sans-serif;
+            background-color: #f4f4f4;
+            color: #333;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            margin: 0;
+            flex-direction: column;
+        }
+
+        .countdown-container {
+            text-align: center;
+            background-color: #fff;
+            padding: 20px;
+            border-radius: 8px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+            display: inline-block;
+            width: 90%;
+            max-width: 600px;
+        }
+
+        .countdown {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin: 10px 0;
+            padding: 10px;
+            background-color: #fff;
+            border-radius: 8px;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+        }
+
+        .event-name {
+            font-size: 1.2em;
+            color: #FFA500; /* 浅蓝色 */
+            font-size: 20px;
+            margin-right: 10px;
+            font-weight: bold;
+        }
+
+        .time-left {
+            font-size: 1.2em;
+            color: rgb(27,29,25); /* 清新绿色 */
+        }
+
+        /* Add a separator line between countdown items */
+        .countdown:not(:last-child) {
+            border-bottom: 1px solid #e9e9e9;
+        }
+
+        /* Custom countdown input */
+        .custom-countdown-input {
+            margin: 10px 0;
+            padding: 10px;
+            width: 100%;
+            box-sizing: border-box;
+        }
+
+        /* Responsive design for smaller screens */
+        @media (max-width: 600px) {
+            .event-name, .time-left {
+                font-size: 1em;
+            }
+        }
+		
+		/* Custom countdown input */
+		.custom-countdown-input {
+		    margin: 10px 0;
+		    padding: 8px;
+		    width: 180px; /* 缩小宽度 */
+		    box-sizing: border-box;
+		    border: 1px solid #ccc;
+		    border-radius: 4px;
+		}
+
+    </style>
+</head>
+<body>
+    <div class="countdown-container">
+        <h1>节日倒计时</h1>
+        <div id="chunYe" class="countdown">
+            <span class="event-name">距2024年除夕</span>
+            <span class="time-left" id="chunYeTime">加载中...</span>
+        </div>
+        <div id="southXiaoNian" class="countdown">
+            <span class="event-name">距2024年南小年</span>
+            <span class="time-left" id="southXiaoNianTime">加载中...</span>
+        </div>
+        <div id="northXiaoNian" class="countdown">
+            <span class="event-name">距2024年北小年</span>
+            <span class="time-left" id="northXiaoNianTime">加载中...</span>
+        </div>
+        <div id="newYear" class="countdown">
+            <span class="event-name">距2025年元旦</span>
+            <span class="time-left" id="newYearTime">加载中...</span>
+        </div>
+        <div id="labaFestival" class="countdown">
+            <span class="event-name">距2025年腊八</span>
+            <span class="time-left" id="labaFestivalTime">加载中...</span>
+        </div>
+        <div id="lanternFestival" class="countdown">
+            <span class="event-name">距2025年元宵</span>
+            <span class="time-left" id="lanternFestivalTime">加载中...</span>
+        </div>
+        <div id="qingmingFestival" class="countdown">
+            <span class="event-name">距2025年清明</span>
+            <span class="time-left" id="qingmingFestivalTime">加载中...</span>
+        </div>
+        <div id="mayDay" class="countdown">
+            <span class="event-name">距2025年劳动</span>
+            <span class="time-left" id="mayDayTime">加载中...</span>
+        </div>
+        <div id="nationalDay" class="countdown">
+            <span class="event-name">距2025年国庆</span>
+            <span class="time-left" id="nationalDayTime">加载中...</span>
+        </div>
+        <div id="midAutumnFestival" class="countdown">
+            <span class="event-name">距2025年中秋</span>
+            <span class="time-left" id="midAutumnFestivalTime">加载中...</span>
+        </div>
+        <!-- Custom countdown input -->
+        <div class="countdown">
+            <input type="date" id="customDate" class="custom-countdown-input">
+            <span class="time-left" id="customCountdownTime">自定义倒计时</span>
+        </div>
+    </div>
+
+    <script>
+        function calculateCountdown(endDate) {
+            const now = new Date();
+            const then = new Date(endDate);
+            const timeRemaining = then - now;
+            const days = Math.floor(timeRemaining / (1000 * 60 * 60 * 24));
+            const hours = Math.floor((timeRemaining % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
+            const minutes = Math.floor((timeRemaining % (1000 * 60 * 60)) / (1000 * 60));
+            const seconds = Math.floor((timeRemaining % (1000 * 60)) / 1000);
+            return `${days}天 ${hours}小时 ${minutes}分钟 ${seconds}秒`;
+        }
+
+        function updateCountdownDisplays() {
+            const dates = {
+                'chunYe': '2025-01-28', //除夕
+                'southXiaoNian': '2025-01-23',//南方小年
+                'northXiaoNian': '2025-01-22',//北方小年
+                'newYear': '2025-01-01',//元旦
+                'labaFestival': '2025-01-07',//腊八
+                'lanternFestival': '2025-02-12',//元宵
+                'qingmingFestival': '2025-04-04',//清明
+                'mayDay': '2025-05-01',//劳动节
+                'nationalDay': '2025-10-01',//国庆
+                'midAutumnFestival': '2025-10-06'//中秋
+            };
+
+            for (const festival in dates) {
+                const elementId = festival + 'Time';
+                document.getElementById(elementId).textContent = calculateCountdown(dates[festival]);
+            }
+
+            // Custom countdown
+            const customDate = document.getElementById('customDate').value;
+            if (customDate) {
+                document.getElementById('customCountdownTime').textContent = calculateCountdown(customDate);
+            }
+        }
+
+        document.addEventListener('DOMContentLoaded', function () {
+            updateCountdownDisplays();
+            setInterval(updateCountdownDisplays, 1000);
+            document.getElementById('customDate').addEventListener('change', updateCountdownDisplays);
+        });
+    </script>
+</body>
+</html>

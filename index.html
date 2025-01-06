@@ -225,7 +225,7 @@
 		
 		            .countdown {
 		                width: 100%; /* 让倒计时框的宽度占满父容器 */
-		                max-width: 350px; /* 设置最大宽度，避免过大 */
+		                max-width: 500px; /* 设置最大宽度，避免过大 */
 		                margin: 10px 0; /* 适当缩小倒计时之间的间距 */
 		            }
 		
@@ -432,55 +432,44 @@
         
         // 下载HTML文件
         function downloadHtml() {
-            // 临时隐藏倒计时输入部分和删除按钮
-            document.querySelector('.input-container').style.display = 'none';
-            
-            const deleteButtons = document.querySelectorAll('.delete-button');
-            
-            // 移除删除按钮
-            deleteButtons.forEach(button => {
-                button.remove();
-            });
-        
-            // 获取页面的 HTML 内容
-            const htmlContent = document.documentElement.outerHTML;
-        
-            // 获取动态生成的倒计时部分
-            const countdownContainerContent = document.getElementById('countdown-container').innerHTML;
-            
-            // 用于构建下载文件的 HTML 内容
-            const finalHtmlContent = htmlContent.replace(
-                '<div id="countdown-container"></div>', // 需要替换的部分
-                `<div id="countdown-container">${countdownContainerContent}</div>` // 替换为动态倒计时内容
-            );
-        
-            // 创建 Blob 对象并下载
-            const blob = new Blob([finalHtmlContent], { type: 'text/html' });
-            const url = URL.createObjectURL(blob);
-            const a = document.createElement('a');
-            a.href = url;
-            a.download = '自定义倒计时.html';
-            a.click();
-            URL.revokeObjectURL(url);
-        
-            // 下载后恢复倒计时输入部分和删除按钮显示
-            setTimeout(() => {
-                document.querySelector('.input-container').style.display = 'flex';
-        
-                // 恢复删除按钮
-                const countdowns = document.querySelectorAll('.countdown');
-                countdowns.forEach(countdown => {
-                    const deleteButton = document.createElement('button');
-                    deleteButton.className = 'delete-button';
-                    deleteButton.textContent = 'X';
-                    deleteButton.onclick = () => {
-                        countdown.remove();
-                        saveCountdownsToLocalStorage(); // 删除时也保存
-                    };
-                    countdown.appendChild(deleteButton);
-                });
-            }, 0);
-        }
+    // 临时隐藏倒计时输入部分和删除按钮
+    document.querySelector('.input-container').style.display = 'none';
+    
+    const deleteButtons = document.querySelectorAll('.delete-button');
+    
+    // 移除删除按钮
+    deleteButtons.forEach(button => {
+        button.remove();
+    });
+
+    // 获取页面的 HTML 内容
+    const htmlContent = document.documentElement.outerHTML;
+    const blob = new Blob([htmlContent], { type: 'text/html' });
+    const url = URL.createObjectURL(blob);
+    const a = document.createElement('a');
+    a.href = url;
+    a.download = '自定义倒计时.html';
+    a.click();
+    URL.revokeObjectURL(url);
+
+    // 下载后恢复倒计时输入部分和删除按钮显示
+    setTimeout(() => {
+        document.querySelector('.input-container').style.display = 'flex';
+
+        // 恢复删除按钮
+        const countdowns = document.querySelectorAll('.countdown');
+        countdowns.forEach(countdown => {
+            const deleteButton = document.createElement('button');
+            deleteButton.className = 'delete-button';
+            deleteButton.textContent = 'X';
+            deleteButton.onclick = () => {
+                countdown.remove();
+                saveCountdownsToLocalStorage(); // 删除时也保存
+            };
+            countdown.appendChild(deleteButton);
+        });
+    }, 0);
+}
 
     </script>
 </body>

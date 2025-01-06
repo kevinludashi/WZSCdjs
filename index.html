@@ -431,7 +431,8 @@
         };
         
         // 下载HTML文件
-        function downloadHtml() {
+        // 下载HTML文件
+function downloadHtml() {
     // 临时隐藏倒计时输入部分和删除按钮
     document.querySelector('.input-container').style.display = 'none';
     
@@ -467,6 +468,14 @@
                 saveCountdownsToLocalStorage(); // 删除时也保存
             };
             countdown.appendChild(deleteButton);
+        });
+
+        // 确保倒计时功能被恢复
+        countdowns.forEach(countdown => {
+            const timerElem = countdown.querySelector('.countdown-timer');
+            const date = countdown.querySelector('.countdown-title').textContent;
+            const timerId = timerElem.id;
+            startCountdown(date, timerId); // 恢复倒计时
         });
     }, 0);
 }
